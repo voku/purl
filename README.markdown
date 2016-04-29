@@ -12,7 +12,7 @@ Purl is a simple Object Oriented URL manipulation library for PHP 5.3+
 The suggested installation method is via [composer](https://getcomposer.org/):
 
 ```sh
-composer require jwage/purl
+composer require voku/purl
 ```
 
 Using Purl
@@ -45,8 +45,13 @@ $url = \Purl\Url::parse('http://jwage.com')
 echo $url->getUrl(); // https://jwage:password@jwage.com:443/about/me?param1=value1&param2=value2#about/me?param1=value1&param2=value2
 
 // $url->path becomes instanceof Purl\Path
+// ... but you can also use "$url->setPathString()", so you still have autocompletion in our IDE! 
+
 // $url->query becomes instanceof Purl\Query
+// ... but you can also use "$url->setQueryString()", so you still have autocompletion in our IDE! 
+
 // $url->fragment becomes instanceof Purl\Fragment
+// ... but you can also use "$url->setFragmentString()", so you still have autocompletion in our IDE! 
 ```
 
 ### Path Manipulation
@@ -58,7 +63,7 @@ $url = new \Purl\Url('http://jwage.com');
 $url->path->add('about')->add('me');
 
 // set the path data from a string
-$url->path = 'about/me/another_segment'; // $url->path becomes instanceof Purl\Path
+$url->setPathString('about/me/another_segment'); // $url->path becomes instanceof Purl\Path
 
 // get the path segments
 print_r($url->path->getData()); // array('about', 'me', 'another_segment')
@@ -89,7 +94,7 @@ print_r($url->query->getData()); //array('param1' => 'value1', 'param2' => 'valu
 
 ```php
 $url = new \Purl\Url('http://jwage.com');
-$url->fragment = 'about/me?param1=value1&param2=value2'; // $url->fragment becomes instanceof Purl\Fragment
+$url->setFragmentString('about/me?param1=value1&param2=value2'); // $url->fragment becomes instanceof Purl\Fragment
 ```
 
 A Fragment is made of a path and a query and comes after the hashmark (#).
