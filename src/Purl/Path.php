@@ -41,7 +41,7 @@ class Path extends AbstractPart
     public function getPath()
     {
         $this->initialize();
-        return implode('/', array_map(function($value) {
+        return implode('/', array_map(function ($value) {
             return str_replace(' ', '%20', $value);
         }, $this->data));
     }

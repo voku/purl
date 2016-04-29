@@ -2,10 +2,10 @@
 
 namespace Purl\Test;
 
+use Pdp\Parser as PslParser;
+use Pdp\PublicSuffixListManager;
 use PHPUnit_Framework_TestCase;
 use Purl\Parser;
-use Pdp\PublicSuffixListManager;
-use Pdp\Parser as PslParser;
 
 /**
  * Class ParserTest
