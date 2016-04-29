@@ -1,4 +1,13 @@
 [![Build Status](https://travis-ci.org/voku/purl.svg?branch=master)](https://travis-ci.org/voku/purl)
+[![codecov.io](https://codecov.io/github/voku/purl/coverage.svg?branch=master)](https://codecov.io/github/voku/purl?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/voku/purl/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/voku/purl/?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/518b188ed990481ea7da72ad6fb4734f)](https://www.codacy.com/app/voku/purl)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/a068f0c2-f560-4a9b-9984-35f18cee600e/mini.png)](https://insight.sensiolabs.com/projects/a068f0c2-f560-4a9b-9984-35f18cee600e)
+[![Latest Stable Version](https://poser.pugx.org/voku/purl/v/stable)](https://packagist.org/packages/voku/purl) 
+[![Total Downloads](https://poser.pugx.org/voku/purl/downloads)](https://packagist.org/packages/voku/purl) 
+[![Latest Unstable Version](https://poser.pugx.org/voku/purl/v/unstable)](https://packagist.org/packages/voku/purl)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/voku/purl/badge.svg)](https://travis-ci.org/voku/purl)
+[![License](https://poser.pugx.org/voku/purl/license)](https://packagist.org/packages/voku/purl)
 
 Purl
 ====
