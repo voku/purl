@@ -11,8 +11,8 @@
 
 namespace Purl;
 
-use Pdp\PublicSuffixListManager;
 use Pdp\Parser as PslParser;
+use Pdp\PublicSuffixListManager;
 
 /**
  * Url is a simple OO class for manipulating Urls in PHP.
@@ -341,7 +341,7 @@ class Url extends AbstractPart
     public function getUrl()
     {
         $this->initialize();
-        return self::httpBuildUrl(array_map(function($value) {
+        return self::httpBuildUrl(array_map(function ($value) {
             return (string) $value;
         }, $this->data));
     }

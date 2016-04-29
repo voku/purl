@@ -115,7 +115,7 @@ abstract class AbstractPart implements \ArrayAccess
      * Add data for this part.
      *
      * @param mixed $value
-     * 
+     *
      * @return $this
      */
     public function add($value)
@@ -128,7 +128,7 @@ abstract class AbstractPart implements \ArrayAccess
 
     /**
      * Remove data from this part by key.
-     * 
+     *
      * @param $key
      */
     public function remove($key)
