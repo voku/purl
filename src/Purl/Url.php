@@ -131,7 +131,7 @@ class Url extends AbstractPart
 
         if (!empty($_SERVER['REQUEST_URI'])) {
             if (strpos($_SERVER['REQUEST_URI'], '?') !== false) {
-                list($path, $query) = explode('?', $_SERVER['REQUEST_URI'], 2);
+              list($path, $query) = array_pad(explode('?', $_SERVER['REQUEST_URI'], 2), 2, null);
             } else {
                 $path = $_SERVER['REQUEST_URI'];
                 $query = '';
