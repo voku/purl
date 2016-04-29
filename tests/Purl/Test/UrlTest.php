@@ -257,6 +257,15 @@ class UrlTest extends PHPUnit_Framework_TestCase
         self::assertEquals('http://jwage.com/about?param=value#about?param=value', (string) $url);
     }
 
+    public function testSetPathString()
+    {
+        $url = new Url('http://jwage.com');
+        $url->setPathString('about');
+        $url->setQuery(new Query('param=value'));
+        $url->setFragment(new Fragment(new Path('about'), new Query('param=value')));
+        self::assertEquals('http://jwage.com/about?param=value#about?param=value', (string) $url);
+    }
+
     public function testIdeGettersAndSetters()
     {
         $url = new Url('http://jwage.com');

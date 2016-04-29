@@ -224,6 +224,14 @@ class Url extends AbstractPart
     }
 
     /**
+     * @param $string
+     */
+    public function setPathString($string)
+    {
+      $this->set('path', $string);
+    }
+
+    /**
      * Set the Path instance.
      *
      * @param Path $path
