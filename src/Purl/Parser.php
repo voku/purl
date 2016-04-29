@@ -69,7 +69,7 @@ class Parser implements ParserInterface
 
         if (isset($parsedUrl['host'])) {
             $parsedUrl['publicSuffix'] = $this->pslParser->getPublicSuffix($parsedUrl['host']);
-            $parsedUrl['registerableDomain'] = $this->pslParser->getRegisterableDomain($parsedUrl['host']);
+            $parsedUrl['registerableDomain'] = $this->pslParser->getRegistrableDomain($parsedUrl['host']);
             $parsedUrl['subdomain'] = $this->pslParser->getSubdomain($parsedUrl['host']);
             $parsedUrl['canonical'] = implode('.', array_reverse(explode('.', $parsedUrl['host']))).(isset($parsedUrl['path']) ? $parsedUrl['path'] : '').(isset($parsedUrl['query']) ? '?'.$parsedUrl['query'] : '');
 

@@ -4,12 +4,19 @@ namespace Purl\Test;
 
 use PHPUnit_Framework_TestCase;
 use Purl\Parser;
-use Pdp\PublicSuffixList;
 use Pdp\PublicSuffixListManager;
 use Pdp\Parser as PslParser;
 
+/**
+ * Class ParserTest
+ *
+ * @package Purl\Test
+ */
 class ParserTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Parser
+     */
     private $parser;
 
     protected function setUp()
@@ -29,10 +36,10 @@ class ParserTest extends PHPUnit_Framework_TestCase
     public function testParseUrl()
     {
         $parts = $this->parser->parseUrl('https://sub.domain.jwage.com:443/about?param=value#fragment?param=value');
-        $this->assertEquals(array(
+        self::assertEquals(array(
             'scheme' => 'https',
             'host' => 'sub.domain.jwage.com',
-            'port' => 443,
+            'port' => '443',
             'user' => null,
             'pass' => null,
             'path' => '/about',
@@ -42,13 +49,14 @@ class ParserTest extends PHPUnit_Framework_TestCase
             'registerableDomain' => 'jwage.com',
             'subdomain' => 'sub.domain',
             'canonical' => 'com.jwage.domain.sub/about?param=value',
-            'resource' => '/about?param=value'
+            'resource' => '/about?param=value',
+            'registrableDomain' => 'jwage.com'
         ), $parts);
     }
     
     public function testParseBadUrlThrowsInvalidArgumentException()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Invalid url http:///example.com');
+        $this->setExpectedException('\InvalidArgumentException', '"http:///example.com" is one seriously malformed url.');
         $this->parser->parseUrl('http:///example.com');
     }
 }

@@ -115,6 +115,8 @@ abstract class AbstractPart implements \ArrayAccess
      * Add data for this part.
      *
      * @param mixed $value
+     * 
+     * @return $this
      */
     public function add($value)
     {
@@ -126,6 +128,8 @@ abstract class AbstractPart implements \ArrayAccess
 
     /**
      * Remove data from this part by key.
+     * 
+     * @param $key
      */
     public function remove($key)
     {
@@ -135,21 +139,40 @@ abstract class AbstractPart implements \ArrayAccess
 
     /** Property Overloading */
 
+    /**
+     * @param $key
+     *
+     * @return bool
+     */
     public function __isset($key)
     {
         return $this->has($key);
     }
 
+    /**
+     * @param $key
+     *
+     * @return bool
+     */
     public function __get($key)
     {
         return $this->get($key);
     }
 
+    /**
+     * @param $key
+     * @param $value
+     *
+     * @return AbstractPart
+     */
     public function __set($key, $value)
     {
         return $this->set($key, $value);
     }
 
+    /**
+     * @param $key
+     */
     public function __unset($key)
     {
         return $this->remove($key);
@@ -157,22 +180,41 @@ abstract class AbstractPart implements \ArrayAccess
 
     /** ArrayAccess */
 
+    /**
+     * @param mixed $key
+     *
+     * @return bool
+     */
     public function offsetExists($key)
     {
         $this->initialize();
         return isset($this->data[$key]);
     }
 
+    /**
+     * @param mixed $key
+     *
+     * @return bool
+     */
     public function offsetGet($key)
     {
         return $this->get($key);
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @return AbstractPart
+     */
     public function offsetSet($key, $value)
     {
         return $this->set($key, $value);
     }
 
+    /**
+     * @param mixed $key
+     */
     public function offsetUnset($key)
     {
         return $this->remove($key);
@@ -196,7 +238,7 @@ abstract class AbstractPart implements \ArrayAccess
      * @param string|AbstractPart $value
      * @return AbstractPart $part
      */
-    protected function preparePartValue($key, $value)
+    protected function preparePartValue($key, &$value)
     {
         if (!isset($this->partClassMap[$key])) {
             return $value;

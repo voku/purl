@@ -27,7 +27,7 @@ class Autoloader
     public function __construct($baseDir = null)
     {
         if ($baseDir === null) {
-            $this->baseDir = dirname(__FILE__) . '/..';
+            $this->baseDir = __DIR__ . '/..';
         } else {
             $this->baseDir = rtrim($baseDir, '/');
         }
@@ -52,6 +52,8 @@ class Autoloader
      * Autoload Purl classes.
      *
      * @param string $class
+     *
+     * @return null on error
      */
     public function autoload($class)
     {
@@ -60,11 +62,12 @@ class Autoloader
         }
 
         if (strpos($class, 'Purl') !== 0) {
-            return;
+            return null;
         }
 
         $file = sprintf('%s/%s.php', $this->baseDir, str_replace('\\', DIRECTORY_SEPARATOR, $class));
         if (is_file($file)) {
+            /** @noinspection PhpIncludeInspection */
             require $file;
         }
     }

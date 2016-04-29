@@ -5,19 +5,33 @@ namespace Purl\Test;
 use PHPUnit_Framework_TestCase;
 use Purl\Url;
 
+/**
+ * Class PublicSuffixListTest
+ *
+ * @package Purl\Test
+ */
 class PublicSuffixListTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider parseDataProvider
+     * 
+     * @param $url
+     * @param $publicSuffix
+     * @param $registerableDomain
+     * @param $subdomain
+     * @param $hostPart
      */
     public function testPublicSuffixListImplementation($url, $publicSuffix, $registerableDomain, $subdomain, $hostPart)
     {
         $url = new Url($url);
-        $this->assertEquals($subdomain, $url->subdomain);
-        $this->assertEquals($registerableDomain, $url->registerableDomain);
-        $this->assertEquals($publicSuffix, $url->publicSuffix);
+        self::assertEquals($subdomain, $url->subdomain);
+        self::assertEquals($registerableDomain, $url->registerableDomain);
+        self::assertEquals($publicSuffix, $url->publicSuffix);
     }
 
+    /**
+     * @return array
+     */
     public function parseDataProvider()
     {
         return array(

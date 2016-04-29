@@ -58,7 +58,8 @@ class Fragment extends AbstractPart
         }
         $this->data['query'] = $query;
     }
-
+    
+    /** @noinspection PhpMissingParentCallCommonInspection */
     /**
      * @inheritDoc
      * @override
@@ -85,7 +86,9 @@ class Fragment extends AbstractPart
     /**
      * Set the string fragment for this Fragment instance and sets initialized to false.
      *
-     * @param string
+     * @param $fragment
+     *
+     * @return $this
      */
     public function setFragment($fragment)
     {
@@ -99,7 +102,9 @@ class Fragment extends AbstractPart
     /**
      * Set the Path instance.
      *
-     * @param Path
+     * @param Path $path
+     *
+     * @return $this
      */
     public function setPath(Path $path)
     {
@@ -122,7 +127,9 @@ class Fragment extends AbstractPart
     /**
      * Set the Query instance.
      *
-     * @param Query
+     * @param Query $query
+     *
+     * @return $this
      */
     public function setQuery(Query $query)
     {
@@ -159,8 +166,8 @@ class Fragment extends AbstractPart
             $this->data = array_merge($this->data, parse_url($this->fragment));
         }
 
-        foreach ($this->data as $key => $value) {
-            $this->data[$key] = $this->preparePartValue($key, $value);
+        foreach ($this->data as $key => &$value) {
+            $value = $this->preparePartValue($key, $value);
         }
     }
 }

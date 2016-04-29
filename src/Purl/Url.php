@@ -196,19 +196,21 @@ class Url extends AbstractPart
         $this->initialize();
         $parts = $this->getParser()->parseUrl($url);
 
-        foreach ($parts as $key => $value) {
-            if ($value !== null) {
-                $this->data[$key] = $value;
+        foreach ($parts as $partsKey => $partsValue) {
+            if ($partsValue !== null) {
+                $this->data[$partsKey] = $partsValue;
             }
         }
 
-        foreach ($this->data as $key => $value) {
-            $this->data[$key] = $this->preparePartValue($key, $value);
+        foreach ($this->data as $key => &$value) {
+            $value = $this->preparePartValue($key, $value);
         }
 
         return $this;
     }
 
+
+    /** @noinspection PhpMissingParentCallCommonInspection */
     /**
      * @inheritDoc
      * @override
@@ -224,7 +226,9 @@ class Url extends AbstractPart
     /**
      * Set the Path instance.
      *
-     * @param Path
+     * @param Path $path
+     *
+     * @return $this
      */
     public function setPath(Path $path)
     {
@@ -245,9 +249,19 @@ class Url extends AbstractPart
     }
 
     /**
+     * @param $string
+     */
+    public function setQueryString($string)
+    {
+      $this->set('query', $string);
+    }
+
+    /**
      * Set the Query instance.
      *
-     * @param Query
+     * @param Query $query
+     *
+     * @return $this
      */
     public function setQuery(Query $query)
     {
@@ -268,9 +282,19 @@ class Url extends AbstractPart
     }
 
     /**
+     * @param $string
+     */
+    public function setFragmentString($string)
+    {
+        $this->set('fragment', $string);
+    }
+
+    /**
      * Set the Fragment instance.
      *
-     * @param Fragment
+     * @param Fragment $fragment
+     *
+     * @return $this
      */
     public function setFragment(Fragment $fragment)
     {
@@ -358,8 +382,8 @@ class Url extends AbstractPart
             }
         }
 
-        foreach ($this->data as $key => $value) {
-            $this->data[$key] = $this->preparePartValue($key, $value);
+        foreach ($this->data as $key => &$value) {
+            $value = $this->preparePartValue($key, $value);
         }
     }
 
@@ -393,7 +417,7 @@ class Url extends AbstractPart
     {
         $pslManager = new PublicSuffixListManager(dirname(dirname(__DIR__)) . '/data');
         $pslParser = new PslParser($pslManager->getList());
-        
+
         return new Parser($pslParser);
     }
 }
