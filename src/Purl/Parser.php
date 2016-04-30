@@ -24,7 +24,7 @@ class Parser implements ParserInterface
     /**
      * @var PslParser Public Suffix List parser
      */
-    private $pslParser;
+    private static $pslParser = null;
 
     private static $defaultParts = array(
         'scheme'             => null,
@@ -49,7 +49,9 @@ class Parser implements ParserInterface
      */
     public function __construct(PslParser $pslParser)
     {
-        $this->pslParser = $pslParser;
+        if (self::$pslParser === null) {
+            self::$pslParser = $pslParser;
+        }
     }
 
     /**
@@ -68,9 +70,9 @@ class Parser implements ParserInterface
         $parsedUrl = array_merge(self::$defaultParts, $parsedUrl);
 
         if (isset($parsedUrl['host'])) {
-            $parsedUrl['publicSuffix'] = $this->pslParser->getPublicSuffix($parsedUrl['host']);
-            $parsedUrl['registerableDomain'] = $this->pslParser->getRegistrableDomain($parsedUrl['host']);
-            $parsedUrl['subdomain'] = $this->pslParser->getSubdomain($parsedUrl['host']);
+            $parsedUrl['publicSuffix'] = self::$pslParser->getPublicSuffix($parsedUrl['host']);
+            $parsedUrl['registerableDomain'] = self::$pslParser->getRegistrableDomain($parsedUrl['host']);
+            $parsedUrl['subdomain'] = self::$pslParser->getSubdomain($parsedUrl['host']);
             $parsedUrl['canonical'] = implode('.', array_reverse(explode('.', $parsedUrl['host']))).(isset($parsedUrl['path']) ? $parsedUrl['path'] : '').(isset($parsedUrl['query']) ? '?'.$parsedUrl['query'] : '');
 
             $parsedUrl['resource'] = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
@@ -95,7 +97,7 @@ class Parser implements ParserInterface
             return parse_url($url);
         } else {
             // Otherwise use the PSL parser
-            return $this->pslParser->parseUrl($url)->toArray();
+            return self::$pslParser->parseUrl($url)->toArray();
         }
     }
 }

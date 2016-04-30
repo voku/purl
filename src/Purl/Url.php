@@ -46,34 +46,6 @@ class Url extends AbstractPart
     private $parser;
 
     /**
-     * @var array
-     */
-    protected $data = array(
-        'scheme'             => null,
-        'host'               => null,
-        'port'               => null,
-        'user'               => null,
-        'pass'               => null,
-        'path'               => null,
-        'query'              => null,
-        'fragment'           => null,
-        'publicSuffix'       => null,
-        'registerableDomain' => null,
-        'subdomain'          => null,
-        'canonical'          => null,
-        'resource'           => null
-    );
-
-    /**
-     * @var array
-     */
-    protected $partClassMap = array(
-        'path' => 'Purl\Path',
-        'query' => 'Purl\Query',
-        'fragment' => 'Purl\Fragment'
-    );
-
-    /**
      * Construct a new Url instance.
      *
      * @param string $url
@@ -81,6 +53,28 @@ class Url extends AbstractPart
      */
     public function __construct($url = null, ParserInterface $parser = null)
     {
+        $this->data = array(
+            'scheme'             => null,
+            'host'               => null,
+            'port'               => null,
+            'user'               => null,
+            'pass'               => null,
+            'path'               => null,
+            'query'              => null,
+            'fragment'           => null,
+            'publicSuffix'       => null,
+            'registerableDomain' => null,
+            'subdomain'          => null,
+            'canonical'          => null,
+            'resource'           => null
+        );
+
+        $this->partClassMap = array(
+            'path' => 'Purl\Path',
+            'query' => 'Purl\Query',
+            'fragment' => 'Purl\Fragment'
+        );
+
         $this->url = $url;
         $this->parser = $parser;
     }
@@ -130,8 +124,9 @@ class Url extends AbstractPart
         $url = new self($baseUrl);
 
         if (!empty($_SERVER['REQUEST_URI'])) {
+
             if (strpos($_SERVER['REQUEST_URI'], '?') !== false) {
-              list($path, $query) = array_pad(explode('?', $_SERVER['REQUEST_URI'], 2), 2, null);
+                list($path, $query) = array_pad(explode('?', $_SERVER['REQUEST_URI'], 2), 2, null);
             } else {
                 $path = $_SERVER['REQUEST_URI'];
                 $query = '';
@@ -144,8 +139,12 @@ class Url extends AbstractPart
         // Only set port if different from default (80 or 443)
         if (!empty($_SERVER['SERVER_PORT'])) {
             $port = $_SERVER['SERVER_PORT'];
-            if (($scheme == 'http' && $port != 80) ||
-                ($scheme == 'https' && $port != 443)) {
+
+            if (
+                ($scheme == 'http' && $port != 80)
+                ||
+                ($scheme == 'https' && $port != 443)
+            ) {
                 $url->set('port', $port);
             }
         }
@@ -208,7 +207,6 @@ class Url extends AbstractPart
 
         return $this;
     }
-
 
     /** @noinspection PhpMissingParentCallCommonInspection */
     /**
@@ -330,7 +328,12 @@ class Url extends AbstractPart
     public function getNetloc()
     {
         $this->initialize();
-        return ($this->user && $this->pass ? $this->user.($this->pass ? ':'.$this->pass : '').'@' : '').$this->host.($this->port ? ':'.$this->port : '');
+
+        return ($this->user && $this->pass
+            ? $this->user.($this->pass
+                ? ':'.$this->pass : '').'@'
+            : '').$this->host.($this->port
+                ? ':'.$this->port : '');
     }
 
     /**
@@ -341,9 +344,15 @@ class Url extends AbstractPart
     public function getUrl()
     {
         $this->initialize();
-        return self::httpBuildUrl(array_map(function ($value) {
-            return (string) $value;
-        }, $this->data));
+
+        return self::httpBuildUrl(
+            array_map(
+                function ($value) {
+                  return (string) $value;
+                },
+                $this->data
+            )
+        );
     }
 
     /**

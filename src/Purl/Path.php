@@ -12,7 +12,7 @@
 namespace Purl;
 
 /**
- * Path represents the part of a Url after the domain suffix and before the hashmark (#).
+ * Path represents the part of a Url after the domain suffix and before the hash-mark (#).
  *
  * @author      Jonathan H. Wage <jonwage@gmail.com>
  */

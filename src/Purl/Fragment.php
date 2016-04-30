@@ -12,7 +12,7 @@
 namespace Purl;
 
 /**
- * Fragment represents the part of a Url after the hashmark (#).
+ * Fragment represents the part of a Url after the hash-mark (#).
  *
  * @author Jonathan H. Wage <jonwage@gmail.com>
  *
@@ -27,22 +27,6 @@ class Fragment extends AbstractPart
     private $fragment;
 
     /**
-     * @var array
-     */
-    protected $data = array(
-        'path'  => null,
-        'query' => null
-    );
-
-    /**
-     * @var array
-     */
-    protected $partClassMap = array(
-        'path' => 'Purl\Path',
-        'query' => 'Purl\Query'
-    );
-
-    /**
      * Construct a new Fragment instance.
      *
      * @param string|Path|null $fragment Path instance of string fragment.
@@ -50,12 +34,23 @@ class Fragment extends AbstractPart
      */
     public function __construct($fragment = null, Query $query = null)
     {
+        $this->data = array(
+            'path'  => null,
+            'query' => null
+        );
+
+        $this->partClassMap = array(
+            'path' => 'Purl\Path',
+            'query' => 'Purl\Query'
+        );
+
         if ($fragment instanceof Path) {
             $this->initialized = true;
             $this->data['path'] = $fragment;
         } else {
             $this->fragment = $fragment;
         }
+        
         $this->data['query'] = $query;
     }
     
@@ -80,7 +75,9 @@ class Fragment extends AbstractPart
     public function getFragment()
     {
         $this->initialize();
-        return sprintf('%s%s', $this->path, $this->query->getQuery() ? '?' . $this->query->getQuery() : '');
+        return sprintf('%s%s', $this->path, $this->query->getQuery() 
+            ? '?' . $this->query->getQuery() 
+            : '');
     }
 
     /**
