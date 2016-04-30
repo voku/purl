@@ -75,8 +75,8 @@ class Fragment extends AbstractPart
     public function getFragment()
     {
         $this->initialize();
-        return sprintf('%s%s', $this->path, $this->query->getQuery() 
-            ? '?' . $this->query->getQuery() 
+        return sprintf('%s%s', $this->path, $this->query->getQuery()
+            ? '?' . $this->query->getQuery()
             : '');
     }
 
