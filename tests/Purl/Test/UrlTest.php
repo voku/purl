@@ -238,14 +238,13 @@ class UrlTest extends PHPUnit_Framework_TestCase
 
     public function testExtract()
     {
-        $urls = Url::extract("test\nmore test https://google.com ftp://jwage.com ftps://jwage.com http://google.com\ntesting this out http://jwage.com more text https://we-are-a-professional-studio-of.photography");
-        self::assertEquals(6, count($urls));
+        $urls = Url::extract("test\nmore test https://google.com https://www.domain.de/foo.php?foobar=1&email=lars%40moelleken.org&guid=test1233312#bar öäü htp://test.de https:// http:// http://google.com\ntesting this out http://jwage.com more text https://we-are-a-professional-studio-of.photography");
+        self::assertEquals(5, count($urls));
         self::assertEquals('https://google.com/', (string) $urls[0]);
-        self::assertEquals('ftp://jwage.com/', (string) $urls[1]);
-        self::assertEquals('ftps://jwage.com/', (string) $urls[2]);
-        self::assertEquals('http://google.com/', (string) $urls[3]);
-        self::assertEquals('http://jwage.com/', (string) $urls[4]);
-        self::assertEquals('https://we-are-a-professional-studio-of.photography/', (string) $urls[5]);
+        self::assertEquals('https://www.domain.de/foo.php?foobar=1&email=lars%40moelleken.org&guid=test1233312#bar', (string) $urls[1]);
+        self::assertEquals('http://google.com/', (string) $urls[2]);
+        self::assertEquals('http://jwage.com/', (string) $urls[3]);
+        self::assertEquals('https://we-are-a-professional-studio-of.photography/', (string) $urls[4]);
     }
 
     public function testManualObjectConstruction()
