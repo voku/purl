@@ -229,7 +229,7 @@ class Url extends AbstractPart
      */
     public function setPathString($string)
     {
-      $this->set('path', $string);
+        $this->set('path', $string);
     }
 
     /**
@@ -262,7 +262,7 @@ class Url extends AbstractPart
      */
     public function setQueryString($string)
     {
-      $this->set('query', $string);
+        $this->set('query', $string);
     }
 
     /**
@@ -336,7 +336,7 @@ class Url extends AbstractPart
             ? $this->user.($this->pass
                 ? ':'.$this->pass : '').'@'
             : '').$this->host.($this->port
-                ? ':'.$this->port : '');
+            ? ':'.$this->port : '');
     }
 
     /**
@@ -351,7 +351,7 @@ class Url extends AbstractPart
         return self::httpBuildUrl(
             array_map(
                 function ($value) {
-                  return (string) $value;
+                    return (string) $value;
                 },
                 $this->data
             )
