@@ -229,7 +229,7 @@ class Url extends AbstractPart
      */
     public function setPathString($string)
     {
-        $this->set('path', $string);
+      $this->set('path', $string);
     }
 
     /**
@@ -262,7 +262,7 @@ class Url extends AbstractPart
      */
     public function setQueryString($string)
     {
-        $this->set('query', $string);
+      $this->set('query', $string);
     }
 
     /**
@@ -336,7 +336,7 @@ class Url extends AbstractPart
             ? $this->user.($this->pass
                 ? ':'.$this->pass : '').'@'
             : '').$this->host.($this->port
-            ? ':'.$this->port : '');
+                ? ':'.$this->port : '');
     }
 
     /**
@@ -348,14 +348,18 @@ class Url extends AbstractPart
     {
         $this->initialize();
 
-        return self::httpBuildUrl(
-            array_map(
-                function ($value) {
-                    return (string) $value;
-                },
-                $this->data
-            )
+        $parts = array_map(
+            function ($value) {
+                return (string) $value;
+            },
+            $this->data
         );
+
+        if (!$this->isAbsolute()) {
+            return self::httpBuildUrlRelative($parts);
+        }
+
+        return self::httpBuildUrl($parts);
     }
 
     /**
@@ -378,6 +382,7 @@ class Url extends AbstractPart
     public function isAbsolute()
     {
         $this->initialize();
+
         return $this->scheme && $this->host;
     }
 
@@ -415,13 +420,28 @@ class Url extends AbstractPart
      */
     private static function httpBuildUrl(array $parts)
     {
-        $parts['path'] = ltrim($parts['path'], '/');
+        $relative = self::httpBuildUrlRelative($parts);
 
-        return sprintf('%s://%s%s%s/%s%s%s',
+        return sprintf('%s://%s%s%s%s',
             $parts['scheme'],
             $parts['user'] ? sprintf('%s%s@', $parts['user'], $parts['pass'] ? sprintf(':%s', $parts['pass']) : '') : '',
             $parts['host'],
             $parts['port'] ? sprintf(':%d', $parts['port']) : '',
+            $relative
+        );
+    }
+
+    /**
+     * Reconstructs relative part of URL from an array of parts.
+     *
+     * @param array $parts
+     * @return string $url
+     */
+    private static function httpBuildUrlRelative(array $parts)
+    {
+        $parts['path'] = ltrim($parts['path'], '/');
+
+        return sprintf('/%s%s%s',
             $parts['path'] ? $parts['path'] : '',
             $parts['query'] ? '?'.$parts['query'] : '',
             $parts['fragment'] ? '#'.$parts['fragment'] : ''
