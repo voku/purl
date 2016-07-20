@@ -15,26 +15,26 @@ class PathTest extends PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $path = new Path('test');
-        self::assertEquals('test', $path->getPath());
+        self::assertSame('test', $path->getPath());
     }
 
     public function testGetSetPath()
     {
         $path = new Path();
-        self::assertEquals('', $path->getPath());
+        self::assertSame('', $path->getPath());
         $path->setPath('test');
-        self::assertEquals('test', $path->getPath());
+        self::assertSame('test', $path->getPath());
     }
 
     public function testGetSegments()
     {
         $path = new Path('about/me');
-        self::assertEquals(array('about', 'me'), $path->getSegments());
+        self::assertSame(array('about', 'me'), $path->getSegments());
     }
 
     public function testToString()
     {
         $path = new Path('about/me');
-        self::assertEquals('about/me', (string) $path);
+        self::assertSame('about/me', (string) $path);
     }
 }

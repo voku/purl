@@ -33,7 +33,7 @@ class PurlTest extends PHPUnit_Framework_TestCase
         }
         $memEnd = memory_get_usage(true);
 
-        self::assertEquals($this->roundMemoryUsage($memStart), $this->roundMemoryUsage($memEnd));
+        self::assertSame($this->roundMemoryUsage($memStart), $this->roundMemoryUsage($memEnd));
     }
 
     /**

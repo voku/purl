@@ -36,7 +36,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
     public function testParseUrl()
     {
         $parts = $this->parser->parseUrl('https://sub.domain.jwage.com:443/about?param=value#fragment?param=value');
-        self::assertEquals(array(
+        self::assertSame(array(
             'scheme' => 'https',
             'host' => 'sub.domain.jwage.com',
             'port' => '443',

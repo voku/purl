@@ -21,7 +21,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
     {
         $url = new Url();
         $url->setUrl('http://jwage.com');
-        self::assertEquals('http://jwage.com/', $url->getUrl());
+        self::assertSame('http://jwage.com/', $url->getUrl());
         self::assertInstanceOf('Purl\Parser', $url->getParser());
 
         $parser = new TestParser();
@@ -40,26 +40,26 @@ class UrlTest extends PHPUnit_Framework_TestCase
     public function testParseSanity()
     {
         $url = new Url('https://host.com:443/path with spaces?param1 with spaces=value1 with spaces&param2=value2#fragment1/fragment2 with spaces?param1=value1&param2 with spaces=value2 with spaces');
-        self::assertEquals('https', $url->scheme);
-        self::assertEquals('host.com', $url->host);
-        self::assertEquals('443', $url->port);
+        self::assertSame('https', $url->scheme);
+        self::assertSame('host.com', $url->host);
+        self::assertSame('443', $url->port);
         self::assertInstanceOf('Purl\Path', $url->path);
-        self::assertEquals('/path%20with%20spaces', (string) $url->path);
+        self::assertSame('/path%20with%20spaces', (string) $url->path);
         self::assertInstanceOf('Purl\Query', $url->query);
-        self::assertEquals('param1_with_spaces=value1+with+spaces&param2=value2', (string) $url->query);
+        self::assertSame('param1_with_spaces=value1+with+spaces&param2=value2', (string) $url->query);
         self::assertInstanceOf('Purl\Fragment', $url->fragment);
-        self::assertEquals('fragment1/fragment2%20with%20spaces?param1=value1&param2_with_spaces=value2+with+spaces', (string) $url->fragment);
+        self::assertSame('fragment1/fragment2%20with%20spaces?param1=value1&param2_with_spaces=value2+with+spaces', (string) $url->fragment);
         self::assertInstanceOf('Purl\Path', $url->fragment->path);
         self::assertInstanceOf('Purl\Query', $url->fragment->query);
-        self::assertEquals('param1=value1&param2_with_spaces=value2+with+spaces', (string) $url->fragment->query);
-        self::assertEquals('fragment1/fragment2%20with%20spaces', (string) $url->fragment->path);
+        self::assertSame('param1=value1&param2_with_spaces=value2+with+spaces', (string) $url->fragment->query);
+        self::assertSame('fragment1/fragment2%20with%20spaces', (string) $url->fragment->path);
     }
 
     public function testParseStaticMethod()
     {
         $url = Url::parse('http://google.com');
         self::assertInstanceOf('Purl\Url', $url);
-        self::assertEquals('http://google.com/', (string) $url);
+        self::assertSame('http://google.com/', (string) $url);
     }
 
     public function testBuild()
@@ -82,15 +82,15 @@ class UrlTest extends PHPUnit_Framework_TestCase
             ->set('param1', 'value1')
             ->set('param2', 'value2');
 
-        self::assertEquals('https://jwage.com:443/about/me?param1=value1&param2=value2#/fragment1/fragment2?param1=value1&param2=value2', (string) $url);
+        self::assertSame('https://jwage.com:443/about/me?param1=value1&param2=value2#/fragment1/fragment2?param1=value1&param2=value2', (string) $url);
     }
 
     public function testJoin()
     {
         $url = new Url('http://jwage.com/about?param=value#fragment');
-        self::assertEquals('http://jwage.com/about?param=value#fragment', (string) $url);
+        self::assertSame('http://jwage.com/about?param=value#fragment', (string) $url);
         $url->join(new Url('http://about.me/jwage'));
-        self::assertEquals('http://about.me/jwage?param=value#fragment', (string) $url);
+        self::assertSame('http://about.me/jwage?param=value#fragment', (string) $url);
     }
 
     public function testSetPath()
@@ -98,7 +98,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $url = new Url('http://jwage.com');
         $url->path = 'about';
         self::assertInstanceOf('Purl\Path', $url->path);
-        self::assertEquals('about', (string) $url->path);
+        self::assertSame('about', (string) $url->path);
     }
 
     public function testSetQuery()
@@ -106,8 +106,8 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $url = new Url('http://jwage.com');
         $url->query->set('param1', 'value1');
         self::assertInstanceOf('Purl\Query', $url->query);
-        self::assertEquals('param1=value1', (string) $url->query);
-        self::assertEquals(array('param1' => 'value1'), $url->query->getData());
+        self::assertSame('param1=value1', (string) $url->query);
+        self::assertSame(array('param1' => 'value1'), $url->query->getData());
     }
 
     public function testSetFragment()
@@ -115,63 +115,63 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $url = new Url('http://jwage.com');
         $url->fragment->path = 'about';
         $url->fragment->query->set('param1', 'value1');
-        self::assertEquals('http://jwage.com/#about?param1=value1', (string) $url);
+        self::assertSame('http://jwage.com/#about?param1=value1', (string) $url);
     }
 
     public function testGetNetloc()
     {
         $url = new Url('https://user:pass@jwage.com:443');
-        self::assertEquals('user:pass@jwage.com:443', $url->getNetloc());
+        self::assertSame('user:pass@jwage.com:443', $url->getNetloc());
     }
 
     public function testGetUrl()
     {
         $url = new Url('http://jwage.com');
-        self::assertEquals('http://jwage.com/', $url->getUrl());
+        self::assertSame('http://jwage.com/', $url->getUrl());
     }
 
     public function testSetUrl()
     {
         $url = new Url('http://jwage.com');
-        self::assertEquals('http://jwage.com/', $url->getUrl());
+        self::assertSame('http://jwage.com/', $url->getUrl());
         $url->setUrl('http://google.com');
-        self::assertEquals('http://google.com/', $url->getUrl());
+        self::assertSame('http://google.com/', $url->getUrl());
     }
 
     public function testArrayAccess()
     {
         $url = new Url('http://jwage.com');
         $url['path'] = 'about';
-        self::assertEquals('http://jwage.com/about', (string) $url);
+        self::assertSame('http://jwage.com/about', (string) $url);
     }
 
     public function testCanonicalization()
     {
         $url = new Url('http://jwage.com');
-        self::assertEquals('com', $url->publicSuffix);
-        self::assertEquals('jwage.com', $url->registerableDomain);
-        self::assertEquals('com.jwage', $url->canonical);
+        self::assertSame('com', $url->publicSuffix);
+        self::assertSame('jwage.com', $url->registerableDomain);
+        self::assertSame('com.jwage', $url->canonical);
 
         $url = new Url('http://sub.domain.jwage.com/index.php?param1=value1');
-        self::assertEquals('com', $url->publicSuffix);
-        self::assertEquals('jwage.com', $url->registerableDomain);
-        self::assertEquals('sub.domain', $url->subdomain);
-        self::assertEquals('com.jwage.domain.sub/index.php?param1=value1', $url->canonical);
+        self::assertSame('com', $url->publicSuffix);
+        self::assertSame('jwage.com', $url->registerableDomain);
+        self::assertSame('sub.domain', $url->subdomain);
+        self::assertSame('com.jwage.domain.sub/index.php?param1=value1', $url->canonical);
 
         $url = new Url('http://sub.domain.jwage.co.uk/index.php?param1=value1');
-        self::assertEquals('co.uk', $url->publicSuffix);
-        self::assertEquals('jwage.co.uk', $url->registerableDomain);
-        self::assertEquals('sub.domain', $url->subdomain);
-        self::assertEquals('uk.co.jwage.domain.sub/index.php?param1=value1', $url->canonical);
+        self::assertSame('co.uk', $url->publicSuffix);
+        self::assertSame('jwage.co.uk', $url->registerableDomain);
+        self::assertSame('sub.domain', $url->subdomain);
+        self::assertSame('uk.co.jwage.domain.sub/index.php?param1=value1', $url->canonical);
     }
 
     public function testPath()
     {
         $url = new Url('http://jwage.com');
         $url->path->add('about')->add('me');
-        self::assertEquals('http://jwage.com/about/me', (string) $url);
+        self::assertSame('http://jwage.com/about/me', (string) $url);
         $url->path->setPath('new/path');
-        self::assertEquals('http://jwage.com/new/path', (string) $url);
+        self::assertSame('http://jwage.com/new/path', (string) $url);
     }
 
     public function testFragment()
@@ -180,20 +180,20 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $url->setFragmentString('test');
         $url->fragment->path->add('about')->add('me');
         $url->fragment->query->set('param1', 'value1');
-        self::assertEquals('http://jwage.com/#test/about/me?param1=value1', (string) $url);
+        self::assertSame('http://jwage.com/#test/about/me?param1=value1', (string) $url);
 
         $url->setFragmentString('test/aboutme?param1=value1');
-        self::assertEquals('test/aboutme', (string) $url->fragment->path);
-        self::assertEquals('param1=value1', (string) $url->fragment->query);
+        self::assertSame('test/aboutme', (string) $url->fragment->path);
+        self::assertSame('param1=value1', (string) $url->fragment->query);
     }
 
     public function testQuery()
     {
         $url = new Url('http://jwage.com');
         $url->setQueryString('param1=value1&param2=value2');
-        self::assertEquals(array('param1' => 'value1', 'param2' => 'value2'), $url->query->getData());
+        self::assertSame(array('param1' => 'value1', 'param2' => 'value2'), $url->query->getData());
         $url->query->set('param3', 'value3');
-        self::assertEquals('param1=value1&param2=value2&param3=value3', (string) $url->query);
+        self::assertSame('param1=value1&param2=value2&param3=value3', (string) $url->query);
     }
 
     public function testIsAbsolute()
@@ -208,43 +208,43 @@ class UrlTest extends PHPUnit_Framework_TestCase
     public function testGetResource()
     {
         $url = new Url('http://jwage.com/about?query=value');
-        self::assertEquals('/about?query=value', $url->resource);
+        self::assertSame('/about?query=value', $url->resource);
     }
 
     public function testPort()
     {
         $url = new Url('http://jwage.com:443');
-        self::assertEquals('443', $url->port);
-        self::assertEquals('http://jwage.com:443/', (string) $url);
+        self::assertSame('443', $url->port);
+        self::assertSame('http://jwage.com:443/', (string) $url);
     }
 
     public function testAuth()
     {
         $url = new Url('http://user:pass@jwage.com');
-        self::assertEquals('user', $url->user);
-        self::assertEquals('pass', $url->pass);
-        self::assertEquals('http://user:pass@jwage.com/', (string) $url);
+        self::assertSame('user', $url->user);
+        self::assertSame('pass', $url->pass);
+        self::assertSame('http://user:pass@jwage.com/', (string) $url);
 
         $url = new Url('http://user:@jwage.com');
-        self::assertEquals('user', $url->user);
-        self::assertEquals(null, $url->pass);
-        self::assertEquals('http://user@jwage.com/', (string) $url);
+        self::assertSame('user', $url->user);
+        self::assertSame('', $url->pass);
+        self::assertSame('http://user@jwage.com/', (string) $url);
 
         $url = new Url('http://user@jwage.com');
-        self::assertEquals('user', $url->user);
-        self::assertEquals(null, $url->pass);
-        self::assertEquals('http://user@jwage.com/', (string) $url);
+        self::assertSame('user', $url->user);
+        self::assertSame(null, $url->pass);
+        self::assertSame('http://user@jwage.com/', (string) $url);
     }
 
     public function testExtract()
     {
         $urls = Url::extract("test\nmore test https://google.com https://www.domain.de/foo.php?foobar=1&email=lars%40moelleken.org&guid=test1233312#bar öäü htp://test.de https:// http:// http://google.com\ntesting this out http://jwage.com more text https://we-are-a-professional-studio-of.photography");
-        self::assertEquals(5, count($urls));
-        self::assertEquals('https://google.com/', (string) $urls[0]);
-        self::assertEquals('https://www.domain.de/foo.php?foobar=1&email=lars%40moelleken.org&guid=test1233312#bar', (string) $urls[1]);
-        self::assertEquals('http://google.com/', (string) $urls[2]);
-        self::assertEquals('http://jwage.com/', (string) $urls[3]);
-        self::assertEquals('https://we-are-a-professional-studio-of.photography/', (string) $urls[4]);
+        self::assertSame(5, count($urls));
+        self::assertSame('https://google.com/', (string) $urls[0]);
+        self::assertSame('https://www.domain.de/foo.php?foobar=1&email=lars%40moelleken.org&guid=test1233312#bar', (string) $urls[1]);
+        self::assertSame('http://google.com/', (string) $urls[2]);
+        self::assertSame('http://jwage.com/', (string) $urls[3]);
+        self::assertSame('https://we-are-a-professional-studio-of.photography/', (string) $urls[4]);
     }
 
     public function testManualObjectConstruction()
@@ -253,7 +253,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $url->set('path', new Path('about'));
         $url->set('query', new Query('param=value'));
         $url->set('fragment', new Fragment(new Path('about'), new Query('param=value')));
-        self::assertEquals('http://jwage.com/about?param=value#about?param=value', (string) $url);
+        self::assertSame('http://jwage.com/about?param=value#about?param=value', (string) $url);
     }
 
     public function testSetPathString()
@@ -262,7 +262,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $url->setPathString('about');
         $url->setQuery(new Query('param=value'));
         $url->setFragment(new Fragment(new Path('about'), new Query('param=value')));
-        self::assertEquals('http://jwage.com/about?param=value#about?param=value', (string) $url);
+        self::assertSame('http://jwage.com/about?param=value#about?param=value', (string) $url);
     }
 
     public function testIdeGettersAndSetters()
@@ -271,7 +271,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $url->setPath(new Path('about'));
         $url->setQuery(new Query('param=value'));
         $url->setFragment(new Fragment(new Path('about'), new Query('param=value')));
-        self::assertEquals('http://jwage.com/about?param=value#about?param=value', (string) $url);
+        self::assertSame('http://jwage.com/about?param=value#about?param=value', (string) $url);
     }
 
     public function testFromCurrentServerVariables() {
@@ -280,12 +280,12 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['REQUEST_URI'] = '/about';
 
         $url = Url::fromCurrent();
-        self::assertEquals('http://jwage.com/about', (string) $url);
+        self::assertSame('http://jwage.com/about', (string) $url);
 
         $_SERVER['REQUEST_URI'] = '/about?param=value';
 
         $url = Url::fromCurrent();
-        self::assertEquals('http://jwage.com/about?param=value', (string) $url);
+        self::assertSame('http://jwage.com/about?param=value', (string) $url);
 
         $_SERVER['HTTPS'] = 'off';
         $_SERVER['HTTP_HOST'] = 'jwage.com';
@@ -293,7 +293,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         unset($_SERVER['REQUEST_URI']);
 
         $url = Url::fromCurrent();
-        self::assertEquals('http://jwage.com/', (string) $url);
+        self::assertSame('http://jwage.com/', (string) $url);
 
         $_SERVER['HTTPS'] = 'on';
         $_SERVER['HTTP_HOST'] = 'jwage.com';
@@ -301,7 +301,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         unset($_SERVER['REQUEST_URI']);
 
         $url = Url::fromCurrent();
-        self::assertEquals('https://jwage.com/', (string) $url);
+        self::assertSame('https://jwage.com/', (string) $url);
 
         unset($_SERVER['HTTPS']);
         $_SERVER['HTTP_HOST'] = 'jwage.com';
@@ -309,7 +309,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         unset($_SERVER['REQUEST_URI']);
 
         $url = Url::fromCurrent();
-        self::assertEquals('http://jwage.com:8080/', (string) $url);
+        self::assertSame('http://jwage.com:8080/', (string) $url);
 
         unset($_SERVER['HTTPS']);
         $_SERVER['HTTP_HOST'] = 'jwage.com';
@@ -319,7 +319,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['PHP_AUTH_PW'] = 'passwd123';
 
         $url = Url::fromCurrent();
-        self::assertEquals('http://user:passwd123@jwage.com/', (string) $url);
+        self::assertSame('http://user:passwd123@jwage.com/', (string) $url);
     }
     
     public function testRelativeUrl()
@@ -327,20 +327,20 @@ class UrlTest extends PHPUnit_Framework_TestCase
         // test all resource parts
         $url = new Url('/path1/path2?x=1&y=2#frag');
         self::assertFalse($url->isAbsolute());
-        self::assertEquals('/path1/path2?x=1&y=2#frag', (string)$url);
+        self::assertSame('/path1/path2?x=1&y=2#frag', (string)$url);
         
         // test base path
         $url = new Url('/path1');
-        self::assertEquals('/path1', (string)$url);
+        self::assertSame('/path1', (string)$url);
         
         // test minimal path
         $url = new Url('/');
-        self::assertEquals('/', (string)$url);
+        self::assertSame('/', (string)$url);
         
         // test feature request
         $url = new Url('/events');
         $url->query->set('param1', 'value1');
-        self::assertEquals('/events?param1=value1', (string)$url);
+        self::assertSame('/events?param1=value1', (string)$url);
     }
 }
 

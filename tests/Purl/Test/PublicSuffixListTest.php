@@ -24,9 +24,9 @@ class PublicSuffixListTest extends PHPUnit_Framework_TestCase
     public function testPublicSuffixListImplementation($url, $publicSuffix, $registerableDomain, $subdomain, $hostPart)
     {
         $url = new Url($url);
-        self::assertEquals($subdomain, $url->subdomain);
-        self::assertEquals($registerableDomain, $url->registerableDomain);
-        self::assertEquals($publicSuffix, $url->publicSuffix);
+        self::assertSame($subdomain, $url->subdomain);
+        self::assertSame($registerableDomain, $url->registerableDomain);
+        self::assertSame($publicSuffix, $url->publicSuffix);
     }
 
     /**
