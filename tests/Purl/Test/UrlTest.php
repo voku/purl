@@ -227,7 +227,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
 
         $url = new Url('http://user:@jwage.com');
         self::assertSame('user', $url->user);
-        self::assertSame('', $url->pass);
+        self::assertEquals(null, $url->pass);
         self::assertSame('http://user@jwage.com/', (string) $url);
 
         $url = new Url('http://user@jwage.com');

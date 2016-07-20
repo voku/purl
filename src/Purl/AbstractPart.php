@@ -89,7 +89,7 @@ abstract class AbstractPart implements \ArrayAccess
      * Gets data from this part by key.
      *
      * @param string $key
-     * @return boolean
+     * @return mixed|null
      */
     public function get($key)
     {
