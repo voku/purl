@@ -86,7 +86,7 @@ class Url extends AbstractPart
    *
    * @return Url
    */
-  public static function parse($url): Url
+  public static function parse($url): self
   {
     return new self($url);
   }
@@ -116,7 +116,7 @@ class Url extends AbstractPart
    *
    * @return Url
    */
-  public static function fromCurrent(): Url
+  public static function fromCurrent(): self
   {
     $scheme = (
         (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
@@ -197,7 +197,7 @@ class Url extends AbstractPart
    *
    * @return Url
    */
-  public function join($url): Url
+  public function join($url): self
   {
     $this->initialize();
     $parts = $this->getParser()->parseUrl($url);
