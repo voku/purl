@@ -14,7 +14,7 @@ Purl
 
 WARNING: this is only a Fork of "https://github.com/jwage/purl"
 
-Purl is a simple Object Oriented URL manipulation library for PHP 5.3+
+Purl is a simple Object Oriented URL manipulation library for PHP.
 
 ## Installation
 
