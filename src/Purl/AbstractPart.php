@@ -224,7 +224,7 @@ abstract class AbstractPart implements \ArrayAccess
    *
    * @return AbstractPart
    */
-  public function offsetSet($key, $value): AbstractPart
+  public function offsetSet($key, $value): self
   {
     return $this->set($key, $value);
   }
