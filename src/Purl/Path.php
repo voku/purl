@@ -18,69 +18,76 @@ namespace Purl;
  */
 class Path extends AbstractPart
 {
-    /**
-     * @var string The original path string.
-     */
-    private $path;
+  /**
+   * @var string The original path string.
+   */
+  private $path;
 
-    /**
-     * Construct a new Path instance.
-     *
-     * @param string $path
-     */
-    public function __construct($path = null)
-    {
-        $this->path = $path;
-    }
+  /**
+   * Construct a new Path instance.
+   *
+   * @param string $path
+   */
+  public function __construct($path = null)
+  {
+    $this->path = $path;
+  }
 
-    /**
-     * Builds a string path from this Path instance internal data and returns it.
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        $this->initialize();
-        return implode('/', array_map(function ($value) {
-            return str_replace(' ', '%20', $value);
-        }, $this->data));
-    }
+  /**
+   * Builds a string path from this Path instance internal data and returns it.
+   *
+   * @return string
+   */
+  public function getPath(): string
+  {
+    $this->initialize();
 
-    /**
-     * Set the string path for this Path instance and sets initialized to false.
-     *
-     * @param string
-     */
-    public function setPath($path)
-    {
-        $this->initialized = false;
-        $this->path = $path;
-    }
+    return \implode(
+        '/',
+        \array_map(
+            function ($value) {
+              return \str_replace(' ', '%20', $value);
+            }, $this->data
+        )
+    );
+  }
 
-    /**
-     * Get the array of segments that make up the path.
-     *
-     * @return array
-     */
-    public function getSegments()
-    {
-        $this->initialize();
-        return $this->data;
-    }
+  /**
+   * Set the string path for this Path instance and sets initialized to false.
+   *
+   * @param string
+   */
+  public function setPath($path)
+  {
+    $this->initialized = false;
+    $this->path = $path;
+  }
 
-    /**
-     * @inheritDoc
-     */
-    public function __toString()
-    {
-        return $this->getPath();
-    }
+  /**
+   * Get the array of segments that make up the path.
+   *
+   * @return array
+   */
+  public function getSegments(): array
+  {
+    $this->initialize();
 
-    /**
-     * @inheritDoc
-     */
-    protected function doInitialize()
-    {
-        $this->data = explode('/', $this->path);
-    }
+    return $this->data;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function __toString()
+  {
+    return $this->getPath();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  protected function doInitialize()
+  {
+    $this->data = \explode('/', $this->path);
+  }
 }

@@ -6,13 +6,14 @@
             <directory suffix="Test.php">./tests/Purl/Test/</directory>
         </testsuite>
     </testsuites>
-
     <filter>
-        <whitelist>
-            <directory suffix=".php">./src/Purl/</directory>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/</directory>
         </whitelist>
+        <blacklist>
+            <directory suffix=".php">./vendor</directory>
+        </blacklist>
     </filter>
-
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>

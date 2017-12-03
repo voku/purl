@@ -18,56 +18,57 @@ namespace Purl;
  */
 class Query extends AbstractPart
 {
-    /**
-     * @var string The original query string.
-     */
-    private $query;
+  /**
+   * @var string The original query string.
+   */
+  private $query;
 
-    /**
-     * Construct a new Query instance.
-     *
-     * @param string $query
-     */
-    public function __construct($query = null)
-    {
-        $this->query = $query;
-    }
+  /**
+   * Construct a new Query instance.
+   *
+   * @param string $query
+   */
+  public function __construct($query = null)
+  {
+    $this->query = $query;
+  }
 
-    /**
-     * Builds a string query from this Query instance internal data and returns it.
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        $this->initialize();
-        return http_build_query($this->data);
-    }
+  /**
+   * Builds a string query from this Query instance internal data and returns it.
+   *
+   * @return string
+   */
+  public function getQuery(): string
+  {
+    $this->initialize();
 
-    /**
-     * Set the string query for this Query instance and sets initialized to false.
-     *
-     * @param string
-     */
-    public function setQuery($query)
-    {
-        $this->initialized = false;
-        $this->query = $query;
-    }
+    return http_build_query($this->data);
+  }
 
-    /**
-     * @inheritDoc
-     */
-    public function __toString()
-    {
-        return $this->getQuery();
-    }
+  /**
+   * Set the string query for this Query instance and sets initialized to false.
+   *
+   * @param string
+   */
+  public function setQuery($query)
+  {
+    $this->initialized = false;
+    $this->query = $query;
+  }
 
-    /**
-     * @inheritDoc
-     */
-    protected function doInitialize()
-    {
-        parse_str($this->query, $this->data);
-    }
+  /**
+   * @inheritDoc
+   */
+  public function __toString()
+  {
+    return $this->getQuery();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  protected function doInitialize()
+  {
+    parse_str($this->query, $this->data);
+  }
 }
